@@ -25,11 +25,17 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(runtimeType.toString()),
+        title: Text(title),
       ),
       body: Column(
         children: <Widget>[
-          Text("Please play the video and wait for playing, then tap on the floating action button"),
+          Container(
+            child: Text("Please play the video, then tap the floating action button while the video is playing."),
+            decoration: BoxDecoration(
+              color: Colors.green,
+            ),
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+          ),
           Expanded(
             child: WebView(
               initialUrl: "https://www.youtube.com/watch?v=mlBIpwtNxxE",
@@ -51,7 +57,6 @@ class MyHomePage extends StatelessWidget {
     ));
   }
 }
-
 
 class KeyboardPage extends StatefulWidget {
   @override
