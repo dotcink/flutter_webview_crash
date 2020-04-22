@@ -1,0 +1,53 @@
+Index: android/app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- android/app/build.gradle	(date 1582607528000)
++++ android/app/build.gradle	(date 1587567397000)
+@@ -24,6 +24,7 @@
+ apply plugin: 'com.android.application'
+ apply plugin: 'kotlin-android'
+ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
++apply plugin: 'android-aspectjx'
+ 
+ android {
+     compileSdkVersion 28
+Index: android/app/src/main/java/com/dotcink/aspect/FixWebViewCrashAspect.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- android/app/src/main/java/com/dotcink/aspect/FixWebViewCrashAspect.java	(date 1587567397000)
++++ android/app/src/main/java/com/dotcink/aspect/FixWebViewCrashAspect.java	(date 1587567397000)
+@@ -0,0 +1,15 @@
++package com.dotcink.aspect;
++
++import android.app.Dialog;
++
++import org.aspectj.lang.JoinPoint;
++import org.aspectj.lang.annotation.Aspect;
++import org.aspectj.lang.annotation.Before;
++
++@Aspect
++public class FixWebViewCrashAspect {
++    @Before("execution(* io.flutter.plugin.platform.SingleViewPresentation.detachState(..)) && target(presentation)")
++    public void onDetachState(JoinPoint joinPoint, Dialog presentation) {
++        presentation.cancel();
++    }
++}
+Index: android/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- android/build.gradle	(date 1582607528000)
++++ android/build.gradle	(date 1587567397000)
+@@ -8,6 +8,7 @@
+     dependencies {
+         classpath 'com.android.tools.build:gradle:3.5.0'
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
++        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
+     }
+ }
+ 
